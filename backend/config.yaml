@@ -1,0 +1,15 @@
+genreal:
+  logging_level: INFO
+  results_directory: "results"
+
+input:
+  stock_file: "stock_lists/Sample.csv"
+  symbol_column: "Symbol"
+
+algorithm:
+  name: "v20extra"
+  parameters:
+    period: "18mo"
+    interval: "1d"
+    target_increase: 20
+
