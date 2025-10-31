@@ -1,10 +1,14 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from utils.runner import run_algorithm
+from database import db, init_db
 import yaml
 
 app = Flask(__name__)
 CORS(app)
+
+# Initialize database
+init_db(app)
 
 @app.route("/api/test")
 def test_api():
