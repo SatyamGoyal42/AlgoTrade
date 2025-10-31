@@ -1,9 +1,43 @@
 version: "3.9"
 
 services:
-  frontend:
-    build: ./frontend
-    container_name: vite-frontend
+  backend:
+    build: ./backend
+    container_name: algotrade-backend
     ports:
-      - "8080:80"
+      - "5000:5000"
+    volumes:
+      # Mount source code for hot reload
+      - ./backend:/app
+      # Exclude virtual environment if it exists
+      - /app/algo
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
     restart: always
+    networks:
+      - algotrade-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: algotrade-frontend
+    ports:
+      - "8081:5173"
+    volumes:
+      # Mount source code for hot reload
+      - ./frontend:/app
+      # Exclude node_modules (use container's node_modules)
+      - /app/node_modules
+    environment:
+      - VITE_API_TARGET=http://backend:5000
+    depends_on:
+      - backend
+    restart: always
+    networks:
+      - algotrade-network
+
+networks:
+  algotrade-network:
+    driver: bridge
