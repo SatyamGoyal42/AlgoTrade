@@ -1,5 +1,5 @@
 from .config import db, init_db
-from .models import *
+from .models.baseModel import *
 
 __all__ = ['db', 'init_db']
 

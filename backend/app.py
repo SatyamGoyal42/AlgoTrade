@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from utils.runner import run_algorithm
+from backend.services.runner import run_algorithm
 from database import db, init_db
+form routes.run_routes import run_bp
 import yaml
 
 app = Flask(__name__)
@@ -9,6 +10,7 @@ CORS(app)
 
 # Initialize database
 init_db(app)
+app.register_blueprint(run_bp)
 
 @app.route("/api/test")
 def test_api():
