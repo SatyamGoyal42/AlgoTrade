@@ -4,9 +4,9 @@ const Sidebar = () => {
   const { pathname } = useLocation();
 
   const navItems = [
-    { path: "/", label: "Dashboard" },
-    { path: "/strategies", label: "Strategies" },
-    { path: "/settings", label: "Settings" },
+    { path: "/", label: "Playground", icon: "⚡" },
+    { path: "/collections", label: "Stock Collections", icon: "📊" },
+    { path: "/patterns", label: "Algo Patterns", icon: "🔍" },
   ];
 
   return (
@@ -17,13 +17,14 @@ const Sidebar = () => {
           <li key={item.path}>
             <Link
               to={item.path}
-              className={`block py-2 px-3 rounded-md ${
+              className={`flex items-center gap-3 py-2 px-3 rounded-md ${
                 pathname === item.path
                   ? "bg-red-100 text-red-600 font-semibold"
                   : "text-gray-700 hover:bg-gray-100"
               }`}
             >
-              {item.label}
+              <span className="text-xl">{item.icon}</span>
+              <span>{item.label}</span>
             </Link>
           </li>
         ))}

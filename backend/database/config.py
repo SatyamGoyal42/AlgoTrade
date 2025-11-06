@@ -12,6 +12,9 @@ def init_db(app):
     """
     Initialize database connection and create tables
     """
+    # Import all models to register them with SQLAlchemy
+    from . import models  # This imports all models via models/__init__.py
+    
     # Get database connection string from environment variable
     database_url = os.getenv('DATABASE_URL')
     

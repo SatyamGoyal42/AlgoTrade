@@ -14,7 +14,6 @@ stock_list_items = db.Table(
 class StockList(BaseModel):
     __tablename__ = "stock_lists"
 
-    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
 
     # Many-to-many relationship via the association table
@@ -31,7 +30,6 @@ class StockList(BaseModel):
 class StockItem(BaseModel):
     __tablename__ = "stock_items"
 
-    id = db.Column(db.Integer, primary_key=True)
     symbol = db.Column(db.String(20), unique=True, nullable=False)
 
     # Reverse many-to-many relationship

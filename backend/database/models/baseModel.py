@@ -1,7 +1,7 @@
 from datetime import datetime
 from database.config import db
 
-class BaseModel:
+class BaseModel(db.Model):
     """
     Base model with common fields and methods
     """

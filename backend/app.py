@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from backend.services.runner import run_algorithm
+from services.runner import run_algo_from_file
 from database import db, init_db
-form routes.run_routes import run_bp
+from database import models  # Import models to register them with SQLAlchemy
+from routes.run_routes import run_bp
+from routes.stockList_routes import stocklist_bp
 import yaml
 
 app = Flask(__name__)
@@ -11,6 +13,7 @@ CORS(app)
 # Initialize database
 init_db(app)
 app.register_blueprint(run_bp)
+app.register_blueprint(stocklist_bp)
 
 @app.route("/api/test")
 def test_api():
@@ -30,7 +33,7 @@ def run_algo():
     results_dir = config["general"]["results_directory"]
 
     try:
-        file_path, results = run_algorithm(stock_file, algo_name, algo_params, symbol_column, results_dir)
+        file_path, results = run_algo_from_file(stock_file, algo_name, algo_params, symbol_column, results_dir)
         return jsonify({
             "status": "success",
             "file_path": file_path,

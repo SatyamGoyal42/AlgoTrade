@@ -1,10 +1,10 @@
 import yfinance as yf
 import pandas as pd
 
-def v20_extra_algo(symbol, period="6mo", interval="1d", target_increase=20):
+def v20_extra_algo(symbol, period="6mo", interval="1d", target_increase=20, auto_adjusted=True):
    
-    data = yf.download(symbol, period=period, interval=interval, auto_adjust=False)
-    present = yf.download(symbol, period="1d", interval="1d", auto_adjust=False)
+    data = yf.download(symbol, period=period, interval=interval, auto_adjust=auto_adjusted)
+    present = yf.download(symbol, period="1d", interval="1d", auto_adjust=auto_adjusted)
 
 
     data["Green"] = data["Close"] >= data["Open"]

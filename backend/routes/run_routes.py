@@ -12,7 +12,12 @@ def run_on_symbol():
     {
         "symbol": "TCS",
         "algo_name": "v20",
-        "algo_params": {"param1": 10, "param2": 5},
+        "algo_params": {
+            "period": "6mo",           # Optional: "1mo", "3mo", "6mo", "1y", "2y", etc.
+            "interval": "1d",          # Optional: "1d", "1wk", "1mo", etc.
+            "target_increase": 20,     # Optional: minimum percentage increase (default: 20)
+            "auto_adjusted": true      # Optional: auto-adjust prices for splits/dividends (default: true)
+        },
         "persist": true
     }
     """
@@ -40,8 +45,13 @@ def run_on_list(stock_list_id):
     Expected JSON body:
     {
         "algo_name": "v20",
-        "algo_params": {"param1": 10},
-        "persist": true
+        "algo_params": {
+            "period": "6mo",           # Optional: "1mo", "3mo", "6mo", "1y", "2y", etc.
+            "interval": "1d",          # Optional: "1d", "1wk", "1mo", etc.
+            "target_increase": 20,      # Optional: minimum percentage increase (default: 20)
+            "auto_adjusted": true       # Optional: auto-adjust prices for splits/dividends (default: true)
+        },
+        "persist": false
     }
     """
     try:

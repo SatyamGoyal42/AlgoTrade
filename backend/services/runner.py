@@ -5,7 +5,8 @@ from datetime import datetime
 from algos.v20 import v20_algo
 from algos.v20extra import v20_extra_algo
 from database.config import db
-from models import AlgorithmResult, StockList, StockItem
+from database.models.algoResults import AlgorithmResult
+from database.models.stockListAndItemModel import StockList, StockItem
 
 # Map algorithm names to their respective functions
 ALGOS = {
