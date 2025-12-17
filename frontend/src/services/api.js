@@ -46,20 +46,55 @@ export const algorithmAPI = {
       algo_params: algoParams,
       persist,
     }),
+  
+  // Backtest algorithm on a single symbol
+  backtestOnSymbol: (symbol, algoName, algoParams = {}) =>
+    api.post('/backtest/symbol', {
+      symbol,
+      algo_name: algoName,
+      algo_params: algoParams,
+    }),
+  
+  // Backtest algorithm on a stock list
+  backtestOnList: (listId, algoName, algoParams = {}) =>
+    api.post(`/backtest/list/${listId}`, {
+      algo_name: algoName,
+      algo_params: algoParams,
+    }),
+};
+
+// Fundamentals API
+export const fundamentalsAPI = {
+  getBySymbol: (symbol) =>
+    api.get('/fundamentals/stock', {
+      params: { symbol },
+    }),
 };
 
 // Algorithm information
+// Each algorithm can have different parameter types:
+// - type: 'text' | 'number' | 'select' | 'checkbox' | 'textarea' | 'date' | 'datetime-local' | 'email' | 'url' | 'range'
+// - label: Display label for the parameter
+// - description: Optional description/tooltip
+// - default: Default value
+// - options: Array of options (required for 'select' type)
+// - min, max, step: For 'number' and 'range' types
+// - placeholder: Placeholder text
+// - required: Boolean indicating if field is required
+// - disabled: Boolean indicating if field is disabled
 export const algorithms = {
   v20: {
     name: 'v20',
     displayName: 'V20 Algorithm',
     description: 'Identifies green candle sequences and finds periods where stocks increase by a target percentage (default 20%) within consecutive green candles.',
+    run: true,
+    backtest: true,
     parameters: {
       period: {
         label: 'Period',
         type: 'select',
         default: '6mo',
-        options: ['1mo', '3mo', '6mo', '1y', '2y'],
+        options: ['1mo', '3mo', '6mo', '1y', '2y', '5y', 'max'],
         description: 'Time period for data analysis',
       },
       interval: {
@@ -81,12 +116,14 @@ export const algorithms = {
     name: 'v20extra',
     displayName: 'V20 Extra Algorithm',
     description: 'Enhanced version of v20 that includes SMA-200 filter. Only signals where the low price is below the 200-day moving average are included.',
+    run: true,
+    backtest: true,
     parameters: {
       period: {
         label: 'Period',
         type: 'select',
         default: '6mo',
-        options: ['1mo', '3mo', '6mo', '1y', '2y'],
+        options: ['1mo', '3mo', '6mo', '1y', '2y', '5y', 'max'],
         description: 'Time period for data analysis',
       },
       interval: {

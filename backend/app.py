@@ -5,6 +5,9 @@ from database import db, init_db
 from database import models  # Import models to register them with SQLAlchemy
 from routes.run_routes import run_bp
 from routes.stockList_routes import stocklist_bp
+from routes.backtest_routes import backtest_bp
+from routes.fundamentals_routes import fundamentals_bp
+from algos.v20 import v20_algo
 import yaml
 
 app = Flask(__name__)
@@ -14,10 +17,25 @@ CORS(app)
 init_db(app)
 app.register_blueprint(run_bp)
 app.register_blueprint(stocklist_bp)
+app.register_blueprint(backtest_bp)
+app.register_blueprint(fundamentals_bp)
 
 @app.route("/api/test")
 def test_api():
     return jsonify({"message": "Flask server is working!"})
+
+@app.route("/api/v20/run", methods=["POST"])
+def run_v20_algo():
+    data = request.get_json()
+    symbol = data.get("symbol")
+    period = data.get("period","6mo")
+    interval = data.get("interval","1d")
+    target_increase = data.get("target_increase",20)
+    auto_adjusted = data.get("auto_adjusted",True)
+    results = v20_algo(symbol, period, interval, target_increase, auto_adjusted)
+    return jsonify({"results": results})
+
+
 
 @app.route("/api/run", methods=["POST"])
 def run_algo():
@@ -46,4 +64,4 @@ def run_algo():
         }), 500
     
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)

@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
     proxy: {
       '/api': {
         // In Docker, use service name; locally use localhost
-        target: process.env.VITE_API_TARGET || 'http://backend:5000',
+        target: process.env.VITE_API_TARGET || 'http://backend:5001',
         changeOrigin: true,
       },
     },
